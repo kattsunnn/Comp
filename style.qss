@@ -1,0 +1,20 @@
+
+QWidget#Area {
+    background-color: #E1E1E1;  /* 淡い青系（AliceBlue）など */
+    border-radius: 10px;
+}
+
+
+QPushButton {
+    background-color: #a8e6cf;  /* 淡い緑 */
+    border: none;
+    border-radius: 35px;
+}
+
+QPushButton:hover {
+    background-color: #81d4af;  /* ホバー時：やや濃い緑 */
+}
+
+QPushButton:pressed {
+    background-color: #66bb8a;  /* 押下時：さらに濃い緑 */
+}
