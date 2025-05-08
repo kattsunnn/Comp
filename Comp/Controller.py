@@ -10,7 +10,7 @@ class ImageController:
     def connect_signals(self):
         self.view.addButton.clicked.connect(self.open_image)
         self.view.exeButton.clicked.connect(self.open_image)
-        self.view.cancelButton.clicked.connect(self.hide_image_area)
+        # self.view.cancelButton.clicked.connect(self.hide_image_area)
 
     def open_image(self):
         file_path, _ = QFileDialog.getOpenFileName(

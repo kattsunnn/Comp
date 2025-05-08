@@ -1,10 +1,24 @@
 from PyQt5.QtWidgets import (
-    QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QTabWidget, QTabBar, QStackedWidget, QSpinBox, QCheckBox
+    QWidget, 
+    QLabel, 
+    QPushButton, 
+    QVBoxLayout, 
+    QHBoxLayout, 
+    QTabWidget, 
+    QTabBar, 
+    QStackedWidget, 
+    QSpinBox, 
+    QCheckBox, 
+    QTableWidget, 
+    QTableWidgetItem,
+    QAbstractItemView,
+    QHeaderView
 )
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QSize
 import qtawesome as qta
 from PyQt5.QtWidgets import QSizePolicy
+
 
 class ImageView(QWidget):
     def __init__(self):
@@ -13,43 +27,23 @@ class ImageView(QWidget):
         self.setObjectName("window")
         self.resize(1067, 600)
 
-        self.init_ui()
+        self.mainLayout = QHBoxLayout()
+        self.mainLayout.setContentsMargins(10, 10, 10, 10)
+        self.initImgArea()
+        self.initEditArea()
+        self.mainLayout.addWidget(self.imgArea)
+        self.mainLayout.addStretch()
+        self.mainLayout.addWidget(self.editArea)
 
-    def init_ui(self):
-        # メインレイアウト
-        mainLayout = QHBoxLayout()
-        mainLayout.setContentsMargins(10, 10, 10, 10)
+        self.setLayout(self.mainLayout)
+        
+    def initImgArea(self):
+        self.imgArea = ImgAreaWidget()
+        self.imgArea.show()
 
-        # 左側の画像表示領域
-        self.imgArea = QWidget()
-        self.imgArea.setObjectName("Area")
-        self.imgArea.setFixedSize(220, 300)
-        self.imgLayout = QVBoxLayout()
-        self.imgLayout.setContentsMargins(10, 10, 10, 10)
-        self.imgArea.setLayout(self.imgLayout)
 
-        self.cancelButton = QPushButton()
-        self.cancelButton.setObjectName("imgButton")
-        self.cancelButton.setIcon(qta.icon("fa5s.times", color="white"))
-        self.cancelButton.setFixedSize(30, 30)
-        self.cancelButton.setIconSize(QSize(15, 15))
-        self.cancelButton.setToolTip("画像を削除")
-
-        self.imgLabel = QLabel()
-        self.imgLabel.setFixedSize(200, 200)
-        self.imgLabel.setAlignment(Qt.AlignCenter)
-
-        self.sizeLabel = QLabel("200 x 200")
-        self.imgLabel.setObjectName("imgLabel")
-        self.sizeLabel.setFixedHeight(30)
-
-        self.imgLayout.addWidget(self.cancelButton, alignment=Qt.AlignRight)
-        self.imgLayout.addWidget(self.imgLabel, alignment=Qt.AlignCenter)
-        self.imgLayout.addWidget(self.sizeLabel, alignment=Qt.AlignCenter)
-        self.imgArea.hide()
-
-        # 右側の操作エリア
-
+    def initEditArea(self):
+         # 右側の操作エリア
         self.pixelButton = QPushButton()
         self.pixelButton.setObjectName("editTabBarElement")
         self.pixelButton.setIcon(qta.icon("fa5s.image", color="white"))
@@ -90,21 +84,43 @@ class ImageView(QWidget):
         ratioCheckBox = QCheckBox("縦横比を維持")
         ratioCheckBox.setChecked(True)
 
+        wholeCheckBox = QCheckBox("全体に適応")
+        wholeCheckBox.setChecked(False)
+
         pixelTabLayout = QVBoxLayout()
         pixelTabLayout.setContentsMargins(30, 30, 30, 30)
         pixelTabLayout.setSpacing(30)
         pixelTabLayout.addLayout(widthLayout)
         pixelTabLayout.addLayout(heightLayout)
         pixelTabLayout.addWidget(ratioCheckBox)
+        pixelTabLayout.addWidget(wholeCheckBox)
         pixelTabWidget = QWidget()
         pixelTabWidget.setLayout(pixelTabLayout)
 
+        ratioTable = QTableWidget(4,2)
+        ratioTable.verticalHeader().setVisible(False)
+        ratioTable.horizontalHeader().setVisible(False)
+        ratioTable.setShowGrid(False)
+        ratioTable.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        ratioTable.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        ratioTable.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
 
-        ratioTabLayout = QHBoxLayout()
+        data = ["25%", "50%", "75%", "カスタム"]
+
+        for row, col in enumerate(data):
+            ratioTable.setItem(row, 0, QTableWidgetItem(col))
+            ratioTable.setRowHeight(row, 40)
+
+        ratioTabLayout = QVBoxLayout()
+        ratioTabLayout.setContentsMargins(30, 30, 30, 30)
+        ratioTabLayout.addWidget(ratioTable)
+        ratioTabWidget = QWidget()
+        ratioTabWidget.setLayout(ratioTabLayout)
 
         editTab = QStackedWidget()
         editTab.addWidget(pixelTabWidget)
-
+        editTab.addWidget(ratioTabWidget)
+        editTab.setCurrentIndex(0)
 
         self.addButton = QPushButton()
         self.addButton.setObjectName("editButton")
@@ -132,16 +148,49 @@ class ImageView(QWidget):
         editLayout.addWidget(editTab)
         editLayout.addStretch()
         editLayout.addLayout(buttonLayout)
-        editArea = QWidget()
-        editArea.setFixedWidth(300)
-        editArea.setObjectName("Area")
-        editArea.setLayout(editLayout)
+        self.editArea = QWidget()
+        self.editArea.setFixedWidth(300)
+        self.editArea.setObjectName("Area")
+        self.editArea.setLayout(editLayout)
 
-        mainLayout.addWidget(self.imgArea)
-        mainLayout.addStretch()
-        mainLayout.addWidget(editArea)
 
-        self.setLayout(mainLayout)
+class ImgAreaWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUi()
+
+    def initUi(self):
+        self.setObjectName("Area")
+        self.setFixedSize(220, 300)
+        
+        layout = QVBoxLayout()
+        layout.setContentsMargins(10, 10, 10, 10)
+
+        cancelButton = QPushButton()
+        cancelButton = QPushButton()
+        cancelButton.setObjectName("cancelButton")
+        cancelButton.setIcon(qta.icon("fa5s.times", color="white"))
+        cancelButton.setFixedSize(30, 30)
+        cancelButton.setIconSize(QSize(15, 15))
+        cancelButton.setToolTip("画像を削除")
+
+        imgLabel = QLabel()
+        imgLabel.setFixedSize(200, 200)
+        imgLabel.setAlignment(Qt.AlignCenter)
+
+        sizeLabel = QLabel()
+        sizeLabel.setObjectName("sizeLabel")
+        sizeLabel.setFixedHeight(30)
+
+        layout.addWidget(cancelButton, alignment=Qt.AlignRight)
+        layout.addWidget(imgLabel, alignment=Qt.AlignCenter)
+        layout.addWidget(sizeLabel, alignment=Qt.AlignCenter)
+
+        self.setLayout(layout)
+
+
+
+        
 
 
 # # QTabBarを自前で用意

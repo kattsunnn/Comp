@@ -32,11 +32,7 @@ QPushButton:pressed#editButton {
     background-color: #66bb8a;  /* 押下時：さらに濃い緑 */
 }
 
-QPushButton#imgButton {
-    background-color: #a8e6cf;  /* 淡い緑 */
-    border: none;
-    border-radius: 15px;
-}
+
 
 QPushButton:hover#imgButton {
     background-color: #81d4af;  /* ホバー時：やや濃い緑 */
@@ -46,15 +42,7 @@ QPushButton:pressed#imgButton {
     background-color: #66bb8a;  /* 押下時：さらに濃い緑 */
 }
 
-QLabel#imgLabel { 
-    font-family: "Yu Gothic UI";
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    background-color: #a8e6cf;
-    border-radius: 5px;  
-    padding: 4px 8px;
-}
+
 
 QLabel {
     font-family: "Yu Gothic UI";
@@ -75,4 +63,29 @@ QCheckBox {
     font-size: 14px;
     font-weight: bold;
     color: black;
+}
+
+QTableView {
+    font-family: "Yu Gothic UI";
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    border: none;
+}
+
+
+QPushButton#cancelButton {
+    background-color: #a8e6cf;  /* 淡い緑 */
+    border: none;
+    border-radius: 15px;
+}
+
+QLabel#sizeLabel { 
+    font-family: "Yu Gothic UI";
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #a8e6cf;
+    border-radius: 5px;  
+    padding: 4px 8px;
 }
