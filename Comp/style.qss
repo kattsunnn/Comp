@@ -1,0 +1,78 @@
+QWidget#window {
+    background-color:rgb(224, 224, 224);  /* 淡い青系（AliceBlue）など */
+    border-radius: 10px;
+}
+
+
+QWidget#Area {
+    background-color:rgb(255, 255, 255);  /* 淡い青系（AliceBlue）など */
+    border-radius: 10px;
+}
+
+QPushButton#editTabBarElement {
+    border: none;
+    background-color: #a8e6cf;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+QPushButton#editButton {
+    background-color: #a8e6cf;  /* 淡い緑 */
+    border: none;
+    border-radius: 30px;
+}
+
+QPushButton:hover#editButton {
+    background-color: #81d4af;  /* ホバー時：やや濃い緑 */
+}
+
+QPushButton:pressed#editButton {
+    background-color: #66bb8a;  /* 押下時：さらに濃い緑 */
+}
+
+QPushButton#imgButton {
+    background-color: #a8e6cf;  /* 淡い緑 */
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:hover#imgButton {
+    background-color: #81d4af;  /* ホバー時：やや濃い緑 */
+}
+
+QPushButton:pressed#imgButton {
+    background-color: #66bb8a;  /* 押下時：さらに濃い緑 */
+}
+
+QLabel#imgLabel { 
+    font-family: "Yu Gothic UI";
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #a8e6cf;
+    border-radius: 5px;  
+    padding: 4px 8px;
+}
+
+QLabel {
+    font-family: "Yu Gothic UI";
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
+
+QSpinBox {
+    font-family: "Yu Gothic UI";
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
+
+QCheckBox {
+    font-family: "Yu Gothic UI";
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
