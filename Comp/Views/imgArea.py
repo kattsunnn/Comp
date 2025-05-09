@@ -4,38 +4,37 @@ from PyQt5.QtWidgets import (
     QPushButton, 
     QVBoxLayout, 
     QHBoxLayout, 
-    QTabWidget, 
-    QTabBar, 
-    QStackedWidget, 
-    QSpinBox, 
-    QCheckBox, 
-    QTableWidget, 
-    QTableWidgetItem,
-    QAbstractItemView,
-    QHeaderView,
-    QFrame
+    QFrame,
 )
-from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QPixmap
 import qtawesome as qta
-from PyQt5.QtWidgets import QSizePolicy
 
 class ImgAreaWidget(QFrame):
     def __init__(self):
         super().__init__()
         self.initUi()
+        
 
     def initUi(self):
         self.setObjectName("Area")
-        self.setFixedSize(220, 300)
+        self.setFixedSize(250, 300)
         layout = QVBoxLayout()
         layout.setContentsMargins(10, 10, 10, 10)
         self.cancelButton = self.createCancelButton()
         self.imgLabel = self.createImgLabel()
-        self.sizeWidget = self.createSizeWidget()
+        self.originalSizeLabel = self.createOriginalSizeLabel()
+        arrowLabel = self.createArrowLabel()
+        self.compressedSizeLabel = self.createCompressedSizeLabel()
+        sizeLayout = QHBoxLayout()
+        sizeLayout.addWidget(self.originalSizeLabel)
+        sizeLayout.addWidget(arrowLabel)
+        sizeLayout.addWidget(self.compressedSizeLabel)
+        sizeWidget = QWidget()
+        sizeWidget.setLayout(sizeLayout)
         layout.addWidget(self.cancelButton, alignment=Qt.AlignRight)
         layout.addWidget(self.imgLabel, alignment=Qt.AlignCenter)
-        layout.addWidget(self.sizeWidget, alignment=Qt.AlignCenter)
+        layout.addWidget(sizeWidget, alignment=Qt.AlignCenter)
         self.setLayout(layout)
 
     def createCancelButton(self):
@@ -53,21 +52,32 @@ class ImgAreaWidget(QFrame):
         imgLabel.setFixedSize(200, 200)
         imgLabel.setAlignment(Qt.AlignCenter)
         return imgLabel
+        
+    def createOriginalSizeLabel(self):
+        originalSizeLabel = QLabel()
+        originalSizeLabel.setObjectName("sizeLabel")
+        originalSizeLabel.setFixedHeight(30)
+        return originalSizeLabel
     
-    def createSizeWidget(self):
-        sizeBeforeLabel = QLabel()
-        sizeBeforeLabel.setObjectName("sizeLabel")
-        sizeBeforeLabel.setFixedHeight(30)
+    def createArrowLabel(self):
         arrowLabel = QLabel()
         arrowIcon = qta.icon('fa5s.arrow-right')
         arrowLabel.setPixmap(arrowIcon.pixmap(15,15))
-        sizeAfterLabel = QLabel()
-        sizeAfterLabel.setObjectName("sizeLabel")
-        sizeAfterLabel.setFixedHeight(30)
-        sizeLayout = QHBoxLayout()
-        sizeLayout.addWidget(sizeBeforeLabel)
-        sizeLayout.addWidget(arrowLabel)
-        sizeLayout.addWidget(sizeAfterLabel)
-        sizeWidget = QWidget()
-        sizeWidget.setLayout(sizeLayout)
-        return sizeWidget
+        return arrowLabel
+
+    def createCompressedSizeLabel(self):
+        compressedSizeLabel = QLabel()
+        compressedSizeLabel.setObjectName("sizeLabel")
+        compressedSizeLabel.setFixedHeight(30)
+        return compressedSizeLabel
+    
+    def setImgArea(self, img: QPixmap, imgSize: QSize):
+        scaledImg = img.scaled(
+            self.imgLabel.size(),
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation
+        )
+        self.imgLabel.setPixmap(scaledImg)
+        sizeStr = f"{imgSize.width()}×{imgSize.height()}"
+        self.originalSizeLabel.setText(sizeStr)
+        self.compressedSizeLabel.setText(sizeStr)

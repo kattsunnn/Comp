@@ -3,7 +3,9 @@ from PyQt5.QtWidgets import (
     QHBoxLayout, 
 
 )
-from . import imgArea
+from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QPixmap
+from .imgArea import ImgAreaWidget
 from . import editArea
 
 
@@ -17,16 +19,22 @@ class ImageView(QWidget):
         self.setObjectName("window")
         self.resize(1067, 600)
 
-        self.imgArea = imgArea.ImgAreaWidget()
+        self.imgAreas = []
         self.editArea = editArea.editAreaWidget()
 
         self.mainLayout = QHBoxLayout()
         self.mainLayout.setContentsMargins(10, 10, 10, 10)
-        self.mainLayout.addWidget(self.imgArea)
         self.mainLayout.addStretch()
         self.mainLayout.addWidget(self.editArea)
 
         self.setLayout(self.mainLayout)
+
+    def addImgArea(self, img: QPixmap, imgSize: QSize):
+        imgAreaWidget = ImgAreaWidget()
+        imgAreaWidget.setImgArea(img, imgSize)
+        self.imgAreas.append(imgAreaWidget)
+        imgAreasNum = len(self.imgAreas)
+        self.mainLayout.insertWidget(imgAreasNum-1, imgAreaWidget)
         
 
 # # QTabBarを自前で用意

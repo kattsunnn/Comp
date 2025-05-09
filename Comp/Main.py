@@ -1,8 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from Model import ImageModel
+from Models.Model import ImgAreaModel
 from Views.mainWindow import ImageView
-from Controller import ImageController
+from Controllers.Controller import ImageController
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -10,7 +10,7 @@ if __name__ == "__main__":
     with open("style.qss", "r", encoding="utf-8") as f:
         app.setStyleSheet(f.read())
 
-    model = ImageModel()
+    model = ImgAreaModel()
     view = ImageView()
     controller = ImageController(model, view)
 

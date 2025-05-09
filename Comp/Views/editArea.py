@@ -30,10 +30,18 @@ class editAreaWidget(QFrame):
         layout.setContentsMargins(0, 0, 0, 0)
         self.editTabBar = self.createEditTabBar()
         self.editTab = self.createEditTab()
-        self.buttonWidget = self.createButtonWidget()
+        self.addButton = self.createAddButton()
+        self.exeButton = self.createExeButton()
+        buttonLayout = QHBoxLayout()
+        buttonLayout.setContentsMargins(30, 30, 30, 30)
+        # buttonLayout.setSpacing(30)
+        buttonLayout.addWidget(self.addButton)
+        buttonLayout.addWidget(self.exeButton)
+        buttonWidget = QWidget()
+        buttonWidget.setLayout(buttonLayout)
         layout.addWidget(self.editTabBar)
         layout.addWidget(self.editTab)
-        layout.addWidget(self.buttonWidget)
+        layout.addWidget(buttonWidget)
         self.setLayout(layout)
       
     def createEditTabBar(self):
@@ -120,32 +128,24 @@ class editAreaWidget(QFrame):
 
         return editTab
 
-    def createButtonWidget(self):
+    def createAddButton(self):
         addButton = QPushButton()
         addButton.setObjectName("editButton")
         addButton.setIcon(qta.icon("fa5s.plus", color="white"))
         addButton.setFixedSize(60, 60)
         addButton.setIconSize(QSize(30, 30))
         addButton.setToolTip("画像を追加")
+        return addButton
 
+    def createExeButton(self):
         exeButton = QPushButton()
         exeButton.setObjectName("editButton")
         exeButton.setIcon(qta.icon("fa5s.edit", color="white"))
         exeButton.setFixedSize(60, 60)
         exeButton.setIconSize(QSize(30, 30))
         exeButton.setToolTip("画像を編集")
+        return exeButton
 
-        buttonLayout = QHBoxLayout()
-        buttonLayout.setContentsMargins(30, 30, 30, 30)
-        # buttonLayout.setSpacing(30)
-        buttonLayout.addWidget(addButton)
-        buttonLayout.addWidget(exeButton)
-        buttonWidget = QWidget()
-        buttonWidget.setLayout(buttonLayout)
-
-        return buttonWidget
-
-        
 
         
 

@@ -10,9 +10,6 @@ QWidget#Area {
     border: 2px;
 }
 
-
-
-
 /*ボタン　共通設定*/
 QPushButton {
     background-color: #a8e6cf;  /* 淡い緑 */
