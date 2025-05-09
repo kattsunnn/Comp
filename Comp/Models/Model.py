@@ -3,6 +3,11 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 
+class MainModel:
+    def __init__(self):
+        self.ImgAreaModel = ImgAreaModel
+        self.ImgAreasModel = ImgAreasModel()
+
 class ImgAreaModel:
     def __init__(self):
         self.img: QPixmap = None
@@ -17,4 +22,14 @@ class ImgAreaModel:
         self.img = img
         self.originalSize = img.size()
         self.compressedSize = self.originalSize
-    
+
+class ImgAreasModel:
+    def __init__(self):
+        self.imgAreas = []
+
+    def addImgArea(self, imgArea:ImgAreaModel):
+        self.imgAreas.append(imgArea)
+
+    def removeImgArea(self, imgArea: ImgAreaModel):
+        if imgArea in self.imgAreas:
+            self.imgAreas.remove(imgArea)

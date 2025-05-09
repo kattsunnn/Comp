@@ -81,3 +81,4 @@ class ImgAreaWidget(QFrame):
         sizeStr = f"{imgSize.width()}×{imgSize.height()}"
         self.originalSizeLabel.setText(sizeStr)
         self.compressedSizeLabel.setText(sizeStr)
+

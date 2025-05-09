@@ -9,7 +9,7 @@ from .imgArea import ImgAreaWidget
 from . import editArea
 
 
-class ImageView(QWidget):
+class MainView(QWidget):
     def __init__(self):
         super().__init__()
         self.initUi()
@@ -29,12 +29,10 @@ class ImageView(QWidget):
 
         self.setLayout(self.mainLayout)
 
-    def addImgArea(self, img: QPixmap, imgSize: QSize):
+    def addImgArea(self, img: QPixmap, imgSize: QSize, order: int):
         imgAreaWidget = ImgAreaWidget()
         imgAreaWidget.setImgArea(img, imgSize)
-        self.imgAreas.append(imgAreaWidget)
-        imgAreasNum = len(self.imgAreas)
-        self.mainLayout.insertWidget(imgAreasNum-1, imgAreaWidget)
+        self.mainLayout.insertWidget(order, imgAreaWidget)
         
 
 # # QTabBarを自前で用意

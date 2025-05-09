@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QFileDialog
 
 
 
-class ImageController:
+class MainController:
     def __init__(self, model, view):
         self.model = model
         self.view = view
@@ -21,10 +21,11 @@ class ImageController:
         )
         for path in filePaths:
             if path:
-                self.model.loadImg(path)
-                self.view.addImgArea(self.model.img, self.model.originalSize)
+                imgArea = self.model.ImgAreaModel()
+                imgArea.loadImg(path)
+                self.view.addImgArea(imgArea.img, imgArea.originalSize, 0)
         
-        
+    
 
 
     def hideImgArea(self):
