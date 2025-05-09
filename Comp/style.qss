@@ -7,42 +7,37 @@ QWidget#window {
 QWidget#Area {
     background-color:rgb(255, 255, 255);  /* 淡い青系（AliceBlue）など */
     border-radius: 10px;
+    border: 2px;
 }
 
-QPushButton#editTabBarElement {
+
+
+
+/*ボタン　共通設定*/
+QPushButton {
+    background-color: #a8e6cf;  /* 淡い緑 */
     border: none;
-    background-color: #a8e6cf;
+}
+QPushButton:hover {
+    background-color: #81d4af;  /* ホバー時：やや濃い緑 */
+}
+QPushButton:pressed {
+    background-color: #66bb8a;  /* 押下時：さらに濃い緑 */
+}
+
+/*ボタン　個別設定*/
+QPushButton#editButton {
+    border-radius: 30px;
+}
+QPushButton#cancelButton {
+    border-radius: 15px;
+}
+QPushButton#editTabBarElement {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
-
-QPushButton#editButton {
-    background-color: #a8e6cf;  /* 淡い緑 */
-    border: none;
-    border-radius: 30px;
-}
-
-QPushButton:hover#editButton {
-    background-color: #81d4af;  /* ホバー時：やや濃い緑 */
-}
-
-QPushButton:pressed#editButton {
-    background-color: #66bb8a;  /* 押下時：さらに濃い緑 */
-}
-
-
-
-QPushButton:hover#imgButton {
-    background-color: #81d4af;  /* ホバー時：やや濃い緑 */
-}
-
-QPushButton:pressed#imgButton {
-    background-color: #66bb8a;  /* 押下時：さらに濃い緑 */
-}
-
-
 
 QLabel {
     font-family: "Yu Gothic UI";
@@ -74,11 +69,7 @@ QTableView {
 }
 
 
-QPushButton#cancelButton {
-    background-color: #a8e6cf;  /* 淡い緑 */
-    border: none;
-    border-radius: 15px;
-}
+
 
 QLabel#sizeLabel { 
     font-family: "Yu Gothic UI";
