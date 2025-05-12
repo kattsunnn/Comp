@@ -17,6 +17,7 @@ class ImgAreaWidget(QFrame):
     def __init__(self, model):
         super().__init__()
         self.model = model
+        self.selected = False
         self.initUi()
 
     def initUi(self):
@@ -41,7 +42,7 @@ class ImgAreaWidget(QFrame):
         layout.addWidget(self.imgLabel, alignment=Qt.AlignCenter)
         layout.addWidget(self.imgNameLabel, alignment=Qt.AlignCenter)
         layout.addWidget(sizeWidget, alignment=Qt.AlignCenter)
-        self.setObjectName("Area")
+        self.setObjectName("imgArea")
         self.setFixedSize(200, 260)
         self.setLayout(layout)
 
@@ -78,8 +79,8 @@ class ImgAreaWidget(QFrame):
     def createOriginalSizeLabel(self):
         originalSizeLabel = QLabel()
         originalSizeLabel.setObjectName("sizeLabel")
-        originalSizeLabel.setFixedHeight(20)
-        sizeStr = f"{self.model.originalSize.width()}×{self.model.originalSize.height()}"
+        size = self.model.originalSize
+        sizeStr = f"{size.width()}×{size.height()}"
         originalSizeLabel.setText(sizeStr)
         return originalSizeLabel
     
@@ -93,13 +94,28 @@ class ImgAreaWidget(QFrame):
         compressedSizeLabel = QLabel()
         compressedSizeLabel.setObjectName("sizeLabel")
         compressedSizeLabel.setFixedHeight(20)
-        sizeStr = f"{self.model.compressedSize.width()}×{self.model.compressedSize.height()}"
+        size = self.model.compressedSize
+        sizeStr = f"{size.width()}×{size.height()}"
         compressedSizeLabel.setText(sizeStr)
         return compressedSizeLabel
+    
+    def updateCompressedSizeLabel(self):
+        size = self.model.compressedSize
+        sizeStr = f"{size.width()}×{size.height()}"
+        self.compressedSizeLabel.setText(sizeStr)
 
     def requestRemove(self):
         self.removeRequested.emit(self)  # ← Controllerに「自分（Widget）を削除して」と通知
         
-        
-        
+    def mousePressEvent(self, event):
+        self.selected = not self.selected
+        if self.selected:
+            self.setObjectName("imgAreaSelected")
+        else:
+            self.setObjectName("imgArea")
+        self.style().unpolish(self)      
+        self.style().polish(self)
+        super().mousePressEvent(event)
+
+    
 

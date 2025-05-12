@@ -3,6 +3,9 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 import os
+from PyQt5.QtWidgets import (
+    QWidget, 
+)
 
 class MainModel:
     def __init__(self):
@@ -25,6 +28,13 @@ class ImgAreaModel:
         self.imgName = os.path.basename(path)  # ファイル名だけを取得
         self.originalSize = img.size()
         self.compressedSize = self.originalSize
+
+    def saveImg(self, folderPath):
+        savePath = os.path.join(folderPath, self.imgName)
+        base, _ = os.path.splitext(savePath)
+        savePathJPG = base + ".jpg"
+        if not self.img.save(savePathJPG, "jpg"):
+            raise IOError(f"画像の保存に失敗しました: {savePath}")
 
 class ImgAreasModel:
     def __init__(self):

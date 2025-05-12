@@ -57,14 +57,23 @@ QCheckBox {
     color: black;
 }
 
-QTableView {
-    font-family: "Yu Gothic UI";
-    font-size: 14px;
-    font-weight: bold;
-    color: black;
+
+QWidget#imgArea {
+    background-color:rgb(255, 255, 255); 
+    border-radius: 10px;
     border: none;
 }
-
+QWidget#imgAreaSelected {
+    background-color:rgb(255, 255, 255); 
+    border-radius: 10px;
+    border: 0.5px solid rgb(0,0,0);
+}
+QLabel#imgNameLabel { 
+    font-family: "Yu Gothic UI";
+    font-size: 10.5px;
+    font-weight: bold;
+    color: black;
+}
 QLabel#sizeLabel { 
     font-family: "Yu Gothic UI";
     font-size: 10.5px;
@@ -74,10 +83,4 @@ QLabel#sizeLabel {
     border-radius: 5px;  
     padding: 1px 2px;
 
-}
-QLabel#imgNameLabel { 
-    font-family: "Yu Gothic UI";
-    font-size: 10.5px;
-    font-weight: bold;
-    color: black;
 }

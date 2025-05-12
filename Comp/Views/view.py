@@ -69,6 +69,9 @@ class MainView(QWidget):
             self.imgAreaGridLayout.addWidget(widget, row, col)
 
 
+    def updateAllImgAreaWidgets(self):
+        for widget in self.imgAreas:
+            widget.updateCompressedSizeLabel()
 
 # # QTabBarを自前で用意
 # tabBar = QTabBar()

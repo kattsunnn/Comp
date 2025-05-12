@@ -13,12 +13,14 @@ from PyQt5.QtWidgets import (
     QHeaderView,
     QFrame
 )
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, pyqtSignal
 import qtawesome as qta
 
 
 
 class editAreaWidget(QFrame):
+    sizeChanged = pyqtSignal(int, int)
+
     def __init__(self):
         super().__init__()
         self.initUi()
@@ -28,8 +30,12 @@ class editAreaWidget(QFrame):
         self.setFixedWidth(300)
         layout = QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        self.editTabBar = self.createEditTabBar()
-        self.editTab = self.createEditTab()
+        self.pixelButton, self.ratioButton, self.editTabBar = self.createEditTabBar()
+        self.widthSpinBox, self.heightSpinBox, self.editTab = self.createEditTab()
+        self.widthSpinBox.valueChanged.connect(self.onSizeChanged)
+        self.heightSpinBox.valueChanged.connect(self.onSizeChanged)
+        self.pixelButton.clicked.connect(lambda: self.editTab.setCurrentIndex(0))
+        self.ratioButton.clicked.connect(lambda: self.editTab.setCurrentIndex(1))
         self.addButton = self.createAddButton()
         self.exeButton = self.createExeButton()
         buttonLayout = QHBoxLayout()
@@ -66,21 +72,21 @@ class editAreaWidget(QFrame):
         editTabBarLayout.addWidget(ratioButton)
         editTabBar = QWidget()
         editTabBar.setLayout(editTabBarLayout)
-        return editTabBar
+        return pixelButton, ratioButton, editTabBar
     
     def createEditTab(self):
         widthLabel = QLabel("幅（px）")
         widthSpinBox = QSpinBox()
-        widthSpinBox.setRange(0, 100)
-        widthSpinBox.setValue(50)
+        widthSpinBox.setRange(1, 5000)
+        widthSpinBox.setValue(500)
         widthLayout = QHBoxLayout()
         widthLayout.addWidget(widthLabel)
         widthLayout.addWidget(widthSpinBox)
 
         heightLabel = QLabel("高さ（px）")
         heightSpinBox = QSpinBox()
-        heightSpinBox.setRange(0, 100)
-        heightSpinBox.setValue(50)
+        heightSpinBox.setRange(1, 5000)
+        heightSpinBox.setValue(500)
         heightLayout = QHBoxLayout()
         heightLayout.addWidget(heightLabel)
         heightLayout.addWidget(heightSpinBox)
@@ -126,7 +132,7 @@ class editAreaWidget(QFrame):
         editTab.addWidget(ratioTabWidget)
         editTab.setCurrentIndex(0)
 
-        return editTab
+        return widthSpinBox, heightSpinBox, editTab
 
     def createAddButton(self):
         addButton = QPushButton()
@@ -146,6 +152,10 @@ class editAreaWidget(QFrame):
         exeButton.setToolTip("画像を編集")
         return exeButton
 
+    def onSizeChanged(self):
+        width = self.widthSpinBox.value()
+        height = self.heightSpinBox.value()
+        self.sizeChanged.emit(width, height)
 
         
 
