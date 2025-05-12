@@ -65,15 +65,19 @@ QTableView {
     border: none;
 }
 
-
-
-
 QLabel#sizeLabel { 
     font-family: "Yu Gothic UI";
-    font-size: 14px;
+    font-size: 10.5px;
     font-weight: bold;
     color: white;
     background-color: #a8e6cf;
     border-radius: 5px;  
-    padding: 4px 8px;
+    padding: 1px 2px;
+
+}
+QLabel#imgNameLabel { 
+    font-family: "Yu Gothic UI";
+    font-size: 10.5px;
+    font-weight: bold;
+    color: black;
 }

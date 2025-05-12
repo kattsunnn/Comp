@@ -20,24 +20,29 @@ class ImgAreaWidget(QFrame):
         self.initUi()
 
     def initUi(self):
-        self.setObjectName("Area")
-        self.setFixedSize(250, 300)
-        layout = QVBoxLayout()
-        layout.setContentsMargins(10, 10, 10, 10)
         self.cancelButton = self.createCancelButton()
         self.imgLabel = self.createImgLabel()
+        self.imgNameLabel = self.createImgNameLabel()
         self.originalSizeLabel = self.createOriginalSizeLabel()
         arrowLabel = self.createArrowLabel()
         self.compressedSizeLabel = self.createCompressedSizeLabel()
         sizeLayout = QHBoxLayout()
+        sizeLayout.setContentsMargins(0, 0, 0, 0)  # ← マージンを完全になくす
+        sizeLayout.setSpacing(5)  # ← 必要なら間の余白を微調整（お好みで0〜5程度）
         sizeLayout.addWidget(self.originalSizeLabel)
         sizeLayout.addWidget(arrowLabel)
         sizeLayout.addWidget(self.compressedSizeLabel)
         sizeWidget = QWidget()
+        layout = QVBoxLayout()
+        layout.setContentsMargins(5, 5, 5, 5)
+        layout.setSpacing(5)
         sizeWidget.setLayout(sizeLayout)
         layout.addWidget(self.cancelButton, alignment=Qt.AlignRight)
         layout.addWidget(self.imgLabel, alignment=Qt.AlignCenter)
+        layout.addWidget(self.imgNameLabel, alignment=Qt.AlignCenter)
         layout.addWidget(sizeWidget, alignment=Qt.AlignCenter)
+        self.setObjectName("Area")
+        self.setFixedSize(200, 260)
         self.setLayout(layout)
 
     def createCancelButton(self):
@@ -50,10 +55,10 @@ class ImgAreaWidget(QFrame):
             cancelButton.setToolTip("画像を削除")
             cancelButton.clicked.connect(self.requestRemove)
             return cancelButton
-    
+
     def createImgLabel(self):
         imgLabel = QLabel()
-        imgLabel.setFixedSize(200, 200)
+        imgLabel.setFixedSize(160, 160)
         imgLabel.setAlignment(Qt.AlignCenter)
         scaledImg = self.model.img.scaled(
             imgLabel.size(),
@@ -63,10 +68,17 @@ class ImgAreaWidget(QFrame):
         imgLabel.setPixmap(scaledImg)
         return imgLabel
         
+    def createImgNameLabel(self):
+        imgNameLabel = QLabel()
+        imgNameLabel.setObjectName("imgNameLabel")
+        imgNameLabel.setFixedHeight(20)
+        imgNameLabel.setText(self.model.imgName)
+        return imgNameLabel
+
     def createOriginalSizeLabel(self):
         originalSizeLabel = QLabel()
         originalSizeLabel.setObjectName("sizeLabel")
-        originalSizeLabel.setFixedHeight(30)
+        originalSizeLabel.setFixedHeight(20)
         sizeStr = f"{self.model.originalSize.width()}×{self.model.originalSize.height()}"
         originalSizeLabel.setText(sizeStr)
         return originalSizeLabel
@@ -74,13 +86,13 @@ class ImgAreaWidget(QFrame):
     def createArrowLabel(self):
         arrowLabel = QLabel()
         arrowIcon = qta.icon('fa5s.arrow-right')
-        arrowLabel.setPixmap(arrowIcon.pixmap(15,15))
+        arrowLabel.setPixmap(arrowIcon.pixmap(10,10))
         return arrowLabel
 
     def createCompressedSizeLabel(self):
         compressedSizeLabel = QLabel()
         compressedSizeLabel.setObjectName("sizeLabel")
-        compressedSizeLabel.setFixedHeight(30)
+        compressedSizeLabel.setFixedHeight(20)
         sizeStr = f"{self.model.compressedSize.width()}×{self.model.compressedSize.height()}"
         compressedSizeLabel.setText(sizeStr)
         return compressedSizeLabel
