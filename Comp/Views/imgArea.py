@@ -9,12 +9,15 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QPixmap
 import qtawesome as qta
+from PyQt5.QtCore import pyqtSignal
 
 class ImgAreaWidget(QFrame):
-    def __init__(self):
+    removeRequested = pyqtSignal(object)  # 自分自身を引数で送る
+
+    def __init__(self, model):
         super().__init__()
+        self.model = model
         self.initUi()
-        
 
     def initUi(self):
         self.setObjectName("Area")
@@ -45,18 +48,27 @@ class ImgAreaWidget(QFrame):
             cancelButton.setFixedSize(30, 30)
             cancelButton.setIconSize(QSize(15, 15))
             cancelButton.setToolTip("画像を削除")
+            cancelButton.clicked.connect(self.requestRemove)
             return cancelButton
     
     def createImgLabel(self):
         imgLabel = QLabel()
         imgLabel.setFixedSize(200, 200)
         imgLabel.setAlignment(Qt.AlignCenter)
+        scaledImg = self.model.img.scaled(
+            imgLabel.size(),
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation
+        )
+        imgLabel.setPixmap(scaledImg)
         return imgLabel
         
     def createOriginalSizeLabel(self):
         originalSizeLabel = QLabel()
         originalSizeLabel.setObjectName("sizeLabel")
         originalSizeLabel.setFixedHeight(30)
+        sizeStr = f"{self.model.originalSize.width()}×{self.model.originalSize.height()}"
+        originalSizeLabel.setText(sizeStr)
         return originalSizeLabel
     
     def createArrowLabel(self):
@@ -69,16 +81,13 @@ class ImgAreaWidget(QFrame):
         compressedSizeLabel = QLabel()
         compressedSizeLabel.setObjectName("sizeLabel")
         compressedSizeLabel.setFixedHeight(30)
+        sizeStr = f"{self.model.compressedSize.width()}×{self.model.compressedSize.height()}"
+        compressedSizeLabel.setText(sizeStr)
         return compressedSizeLabel
-    
-    def setImgArea(self, img: QPixmap, imgSize: QSize):
-        scaledImg = img.scaled(
-            self.imgLabel.size(),
-            Qt.KeepAspectRatio,
-            Qt.SmoothTransformation
-        )
-        self.imgLabel.setPixmap(scaledImg)
-        sizeStr = f"{imgSize.width()}×{imgSize.height()}"
-        self.originalSizeLabel.setText(sizeStr)
-        self.compressedSizeLabel.setText(sizeStr)
+
+    def requestRemove(self):
+        self.removeRequested.emit(self)  # ← Controllerに「自分（Widget）を削除して」と通知
+        
+        
+        
 

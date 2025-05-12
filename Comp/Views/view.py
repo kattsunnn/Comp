@@ -29,10 +29,15 @@ class MainView(QWidget):
 
         self.setLayout(self.mainLayout)
 
-    def addImgArea(self, img: QPixmap, imgSize: QSize, order: int):
-        imgAreaWidget = ImgAreaWidget()
-        imgAreaWidget.setImgArea(img, imgSize)
-        self.mainLayout.insertWidget(order, imgAreaWidget)
+    def addImgArea(self, model):
+        imgAreaWidget = ImgAreaWidget(model)
+        self.mainLayout.insertWidget(0, imgAreaWidget)
+        return imgAreaWidget
+    
+    def removeImgArea(self, widget):
+        self.mainLayout.removeWidget(widget)
+        widget.setParent(None)
+        widget.deleteLater()
         
 
 # # QTabBarを自前で用意

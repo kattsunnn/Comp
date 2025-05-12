@@ -21,15 +21,14 @@ class MainController:
         )
         for path in filePaths:
             if path:
-                imgArea = self.model.ImgAreaModel()
-                imgArea.loadImg(path)
-                self.view.addImgArea(imgArea.img, imgArea.originalSize, 0)
-        
-    
+                imgAreaModel = self.model.ImgAreaModel()
+                imgAreaModel.loadImg(path)
+                self.model.ImgAreasModel.addImgArea(imgAreaModel)
+                imgAreaWidget = self.view.addImgArea(imgAreaModel)
+                imgAreaWidget.removeRequested.connect(self.removeImgArea)
 
 
-    def hideImgArea(self):
-        self.view.imgArea.hide()
-    
-    def showImgArea(self):
-        self.view.imgArea.show()
+    def removeImgArea(self, widget):
+        self.view.removeImgArea(widget)
+        self.model.ImgAreasModel.removeImgArea(widget.model)
+
